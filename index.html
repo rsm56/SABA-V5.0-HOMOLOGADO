@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SABA v5.0 - Sistema RJ</title>
+    <style>
+        :root { --blue: #1a73e8; --red: #d93025; --green: #188038; --gold: #fbbc04; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f1f3f4; margin: 0; padding: 15px; color: #202124; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 8px solid var(--blue); }
+        .nav-bar { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #dadce0; }
+        .btn { cursor: pointer; border: none; border-radius: 6px; font-weight: 600; padding: 10px 15px; transition: all 0.2s; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+        .btn:active { transform: scale(0.98); }
+        .btn-sec { background: #5f6368; color: white; }
+        .btn-danger { background: var(--red); color: white; margin-left: auto; }
+        .btn-main { background: var(--blue); color: white; width: 100%; padding: 18px; font-size: 18px; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .card { border: 1px solid #dadce0; padding: 15px; border-radius: 8px; background: #fff; }
+        .card label { display: block; margin-bottom: 10px; font-weight: bold; color: var(--blue); }
+        textarea { width: 100%; height: 160px; border: 2px solid #dfe1e5; border-radius: 6px; padding: 12px; box-sizing: border-box; font-family: 'Consolas', monospace; font-size: 18px; resize: none; transition: border-color 0.2s; }
+        textarea:focus { border-color: var(--blue); outline: none; background: #f8f9fa; }
+        .horarios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .h-box { background: #f8f9fa; border: 1px solid #dadce0; padding: 10px; border-radius: 6px; text-align: center; }
+        .h-box span { font-size: 11px; font-weight: bold; color: #5f6368; display: block; margin-bottom: 5px; }
+        input[type="text"] { width: 100%; padding: 8px; border: 1px solid #bdc1c6; border-radius: 4px; text-align: center; font-weight: bold; font-size: 18px; box-sizing: border-box; }
+        .result-area { margin-top: 30px; display: none; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .status-chip { background: #e8f0fe; color: var(--blue); padding: 12px; border-radius: 6px; font-weight: bold; margin-bottom: 15px; border-left: 5px solid var(--blue); display: flex; justify-content: space-between; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        th { background: #f8f9fa; color: #5f6368; font-weight: 600; text-transform: uppercase; font-size: 12px; }
+        th, td { border: 1px solid #eee; padding: 12px; text-align: center; }
+        .badge { padding: 4px 10px; border-radius: 4px; color: white; font-weight: bold; font-size: 12px; }
+        .A { background: var(--red); } .B { background: var(--gold); color: #000; } .C { background: var(--green); }
+        .ternos-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 20px; }
+        .terno-card { background: #f1f3f4; border: 1px solid #dadce0; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 14px; color: #3c4043; }
+        .terno-card small { display: block; color: var(--blue); font-size: 10px; margin-bottom: 4px; }
+    </style>
+</head>
+<body onload="carregar()">
+
+<div class="container">
+    <div class="nav-bar">
+        <button class="btn btn-sec" onclick="exportarJSON()">💾 SALVAR BACKUP</button>
+        <button class="btn btn-sec" onclick="document.getElementById('imp').click()">📂 ABRIR BACKUP</button>
+        <input type="file" id="imp" style="display:none" accept="application/json" onchange="importarJSON(event)">
+        <button class="btn btn-danger" onclick="reset()">🧨 RESETAR SISTEMA</button>
+    </div>
+
+    <h2 style="text-align:center; color:var(--blue); margin-bottom:5px;">SABA v5.0 - GESTOR RJ</h2>
+    <p style="text-align:center; font-size:12px; color:#70757a; margin-bottom:25px;">Motor de Inteligência e Ciclos Blindado</p>
+
+    <div class="main-grid">
+        <div class="card">
+            <label>📋 LISTA DE ATRASADOS</label>
+            <textarea id="lista" placeholder="Cole os grupos (ex: 01, 05, 10...)"></textarea>
+        </div>
+        <div class="card">
+            <label>🕒 RESULTADO PARA ATUALIZAR</label>
+            <div class="horarios-grid">
+                <div class="h-box"><span>CORUJA</span><input type="text" id="rCOR" placeholder="00"></div>
+                <div class="h-box"><span>PPT</span><input type="text" id="rPPT" placeholder="00"></div>
+                <div class="h-box"><span>PTM</span><input type="text" id="rPTM" placeholder="00"></div>
+                <div class="h-box"><span>PT</span><input type="text" id="rPT" placeholder="00"></div>
+                <div class="h-box"><span>PTV</span><input type="text" id="rPTV" placeholder="00"></div>
+                <div class="h-box"><span>PTN</span><input type="text" id="rPTN" placeholder="00"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-main" onclick="executar()">Atualizar Ciclo e Gerar Palpites</button>
+
+    <div id="saida" class="result-area">
+        <div class="status-chip">
+            <span id="info"></span>
+            <span id="data-hora"></span>
+        </div>
+        <table>
+            <thead><tr><th>Grupo</th><th>Bicho</th><th>Milhar Sugerida</th><th>Base</th></tr></thead>
+            <tbody id="corpoF"></tbody>
+        </table>
+        <div id="corpoT" class="ternos-container"></div>
+    </div>
+</div>
+
+<script>
+    const db = {
+        1:{n:"Avestruz",b:"A",m:"5602"}, 2:{n:"Águia",b:"A",m:"9205"}, 3:{n:"Burro",b:"A",m:"9911"}, 4:{n:"Borboleta",b:"A",m:"3913"}, 5:{n:"Cachorro",b:"A",m:"7820"},
+        6:{n:"Cabra",b:"B",m:"4321"}, 7:{n:"Carneiro",b:"B",m:"7926"}, 8:{n:"Camelo",b:"B",m:"3632"}, 9:{n:"Cobra",b:"B",m:"6033"}, 10:{n:"Coelho",b:"B",m:"5239"},
+        11:{n:"Cavalo",b:"B",m:"2343"}, 12:{n:"Elefante",b:"B",m:"8846"}, 13:{n:"Galo",b:"B",m:"9651"}, 14:{n:"Gato",b:"B",m:"4656"}, 15:{n:"Jacaré",b:"B",m:"8358"},
+        16:{n:"Leão",b:"C",m:"7562"}, 17:{n:"Macaco",b:"C",m:"7366"}, 18:{n:"Porco",b:"C",m:"9270"}, 19:{n:"Pavão",b:"C",m:"2175"}, 20:{n:"Peru",b:"C",m:"2778"},
+        21:{n:"Touro",b:"C",m:"5784"}, 22:{n:"Tigre",b:"C",m:"6987"}, 23:{n:"Urso",b:"C",m:"7792"}, 24:{n:"Veado",b:"C",m:"1896"}, 25:{n:"Vaca",b:"C",m:"6099"}
+    };
+
+    let cicloGlobal = [];
+
+    function carregar() {
+        const salvo = localStorage.getItem('saba_v5_gold');
+        if(salvo) {
+            try {
+                cicloGlobal = JSON.parse(salvo);
+                if(cicloGlobal.length > 0) renderizarPalpites("CICLO RECUPERADO");
+            } catch(e) { console.error("Erro ao carregar dados locais."); }
+        }
+    }
+
+    function extrair(txt) {
+        if(!txt) return [];
+        // Filtra apenas números e garante que fiquem entre 1 e 25
+        return (txt.match(/\d+/g) || [])
+            .map(Number)
+            .filter(n => n >= 1 && n <= 25);
+    }
+
+    function executar() {
+        const elLista = document.getElementById('lista');
+        const ids = ['rCOR', 'rPPT', 'rPTM', 'rPT', 'rPTV', 'rPTN'];
+        
+        let novaEntrada = [...new Set(extrair(elLista.value))];
+        
+        // Se o usuário colou algo novo, substitui o ciclo. Senão, mantém o global.
+        if(novaEntrada.length > 0) {
+            cicloGlobal = novaEntrada;
+        }
+
+        if(cicloGlobal.length === 0) {
+            alert("Erro: A lista de atrasados está vazia. Cole os grupos primeiro.");
+            return;
+        }
+
+        let sorteio = [], horarioNome = "";
+        for (let id of ids) {
+            let n = extrair(document.getElementById(id).value);
+            if(n.length > 0) { 
+                sorteio = n; 
+                horarioNome = id.replace('r',''); 
+                break; 
+            }
+        }
+
+        if(sorteio.length === 0) {
+            alert("Atenção: Insira o resultado de pelo menos um horário.");
+            return;
+        }
+
+        // Lógica de Reordenação: Remove os que saíram e insere no fim
+        sorteio.forEach(num => {
+            cicloGlobal = cicloGlobal.filter(item => item !== num);
+            cicloGlobal.push(num);
+        });
+
+        // Persistência
+        localStorage.setItem('saba_v5_gold', JSON.stringify(cicloGlobal));
+
+        // Limpeza de UI
+        elLista.value = ""; 
+        ids.forEach(id => document.getElementById(id).value = "");
+
+        renderizarPalpites(horarioNome);
+    }
+
+    function renderizarPalpites(tag) {
+        if(cicloGlobal.length === 0) return;
+
+        const containerSaida = document.getElementById('saida');
+        const corpoF = document.getElementById('corpoF');
+        const corpoT = document.getElementById('corpoT');
+
+        containerSaida.style.display = 'block';
+        document.getElementById('info').innerText = `STATUS: ${tag}`;
+        document.getElementById('data-hora').innerText = new Date().toLocaleTimeString('pt-BR');
+
+        // Palpites Principais (Top 5 da fila)
+        const top5 = cicloGlobal.slice(0, 5);
+        corpoF.innerHTML = top5.map(n => {
+            const info = db[n] || {n:"?", b:"?", m:"?"};
+            return `<tr>
+                <td><strong style="font-size:18px;">${n.toString().padStart(2,'0')}</strong></td>
+                <td>${info.n}</td>
+                <td style="color:var(--blue); font-weight:bold; letter-spacing:1px;">${info.m}</td>
+                <td><span class="badge ${info.b}">${info.b}</span></td>
+            </tr>`;
+        }).join('');
+
+        // Geração de Ternos (Grupos de 3 em 3)
+        let copiaCiclo = [...cicloGlobal];
+        let htmlTernos = "";
+        let contador = 1;
+
+        while(copiaCiclo.length >= 3) {
+            let terno = copiaCiclo.splice(0, 3);
+            htmlTernos += `
+                <div class="terno-card">
+                    <small>TERNO ${contador}</small>
+                    ${terno.map(n => n.toString().padStart(2,'0')).join(' - ')}
+                </div>`;
+            contador++;
+            if(contador > 8) break; // Limite de visualização
+        }
+        corpoT.innerHTML = htmlTernos;
+    }
+
+    function exportarJSON() {
+        if(cicloGlobal.length === 0) return alert("Nada para salvar.");
+        const data = JSON.stringify({ ciclo: cicloGlobal, versao: "5.0", exportadoEm: new Date().toISOString() });
+        const blob = new Blob([data], {type: "application/json"});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `SABA_V5_BACKUP.json`;
+        a.click();
+    }
+
+    function importarJSON(e) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const dados = JSON.parse(event.target.result);
+                if(dados.ciclo && Array.isArray(dados.ciclo)) {
+                    cicloGlobal = dados.ciclo;
+                    localStorage.setItem('saba_v5_gold', JSON.stringify(cicloGlobal));
+                    renderizarPalpites("BACKUP IMPORTADO");
+                    alert("Dados restaurados com sucesso!");
+                }
+            } catch(err) {
+                alert("Erro: O arquivo de backup está corrompido ou é inválido.");
+            }
+        };
+        reader.readAsText(e.target.files[0]);
+    }
+
+    function reset() {
+        if(confirm("ATENÇÃO: Isso apagará todo o seu ciclo atual. Confirmar?")) {
+            localStorage.removeItem('saba_v5_gold');
+            location.reload();
+        }
+    }
+</script>
+</body>
+</html>
