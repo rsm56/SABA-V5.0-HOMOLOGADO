@@ -3,37 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SABA v5.0 - Sistema RJ</title>
+    <title>SABA v6.7 - GESTOR ELITE RJ</title>
     <style>
-        :root { --blue: #1a73e8; --red: #d93025; --green: #188038; --gold: #fbbc04; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f1f3f4; margin: 0; padding: 15px; color: #202124; }
+        :root { --blue: #1a73e8; --red: #d93025; --green: #188038; --gold: #fbbc04; --highlight: #fff9c4; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f1f3f4; margin: 0; padding: 15px; color: #202124; }
         .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 8px solid var(--blue); }
         .nav-bar { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #dadce0; }
-        .btn { cursor: pointer; border: none; border-radius: 6px; font-weight: 600; padding: 10px 15px; transition: all 0.2s; font-size: 13px; display: flex; align-items: center; gap: 5px; }
-        .btn:active { transform: scale(0.98); }
+        .btn { cursor: pointer; border: none; border-radius: 6px; font-weight: 600; padding: 10px 15px; transition: 0.2s; font-size: 13px; }
         .btn-sec { background: #5f6368; color: white; }
         .btn-danger { background: var(--red); color: white; margin-left: auto; }
-        .btn-main { background: var(--blue); color: white; width: 100%; padding: 18px; font-size: 18px; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-main { background: var(--blue); color: white; width: 100%; padding: 18px; font-size: 18px; margin-top: 20px; text-transform: uppercase; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         .card { border: 1px solid #dadce0; padding: 15px; border-radius: 8px; background: #fff; }
-        .card label { display: block; margin-bottom: 10px; font-weight: bold; color: var(--blue); }
-        textarea { width: 100%; height: 160px; border: 2px solid #dfe1e5; border-radius: 6px; padding: 12px; box-sizing: border-box; font-family: 'Consolas', monospace; font-size: 18px; resize: none; transition: border-color 0.2s; }
-        textarea:focus { border-color: var(--blue); outline: none; background: #f8f9fa; }
+        .card label { display: block; margin-bottom: 10px; font-weight: bold; color: var(--blue); font-size: 14px; }
+        textarea { width: 100%; height: 160px; border: 2px solid #dfe1e5; border-radius: 6px; padding: 12px; box-sizing: border-box; font-family: 'Consolas', monospace; font-size: 18px; resize: none; }
         .horarios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .h-box { background: #f8f9fa; border: 1px solid #dadce0; padding: 10px; border-radius: 6px; text-align: center; }
         .h-box span { font-size: 11px; font-weight: bold; color: #5f6368; display: block; margin-bottom: 5px; }
         input[type="text"] { width: 100%; padding: 8px; border: 1px solid #bdc1c6; border-radius: 4px; text-align: center; font-weight: bold; font-size: 18px; box-sizing: border-box; }
-        .result-area { margin-top: 30px; display: none; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .status-chip { background: #e8f0fe; color: var(--blue); padding: 12px; border-radius: 6px; font-weight: bold; margin-bottom: 15px; border-left: 5px solid var(--blue); display: flex; justify-content: space-between; }
+        .result-area { margin-top: 30px; display: none; }
+        .status-chip { background: #e8f0fe; color: var(--blue); padding: 12px; border-radius: 6px; font-weight: bold; margin-bottom: 15px; border-left: 5px solid var(--blue); display: flex; justify-content: space-between; align-items: center; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
-        th { background: #f8f9fa; color: #5f6368; font-weight: 600; text-transform: uppercase; font-size: 12px; }
-        th, td { border: 1px solid #eee; padding: 12px; text-align: center; }
+        th { background: #f8f9fa; color: #5f6368; font-size: 12px; border: 1px solid #eee; padding: 12px; }
+        td { border: 1px solid #eee; padding: 12px; text-align: center; font-weight: bold; }
+        .row-prioridade { background: var(--highlight); }
         .badge { padding: 4px 10px; border-radius: 4px; color: white; font-weight: bold; font-size: 12px; }
         .A { background: var(--red); } .B { background: var(--gold); color: #000; } .C { background: var(--green); }
-        .ternos-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 20px; }
-        .terno-card { background: #f1f3f4; border: 1px solid #dadce0; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 14px; color: #3c4043; }
-        .terno-card small { display: block; color: var(--blue); font-size: 10px; margin-bottom: 4px; }
+        .tag-alerta { background: var(--gold); color: black; font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-left: 5px; }
+        .ternos-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+        .terno-card { background: #f8f9fa; border: 1px solid #dadce0; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 13px; }
+        .terno-mestre { border: 2px solid var(--gold); background: #fffde7; }
+        .terno-card small { display: block; color: var(--blue); font-size: 9px; margin-bottom: 4px; text-transform: uppercase; }
     </style>
 </head>
 <body onload="carregar()">
@@ -46,13 +46,13 @@
         <button class="btn btn-danger" onclick="reset()">🧨 RESETAR SISTEMA</button>
     </div>
 
-    <h2 style="text-align:center; color:var(--blue); margin-bottom:5px;">SABA v5.0 - GESTOR RJ</h2>
-    <p style="text-align:center; font-size:12px; color:#70757a; margin-bottom:25px;">Motor de Inteligência e Ciclos Blindado</p>
+    <h2 style="text-align:center; color:var(--blue); margin-bottom:5px;">SABA v6.7 - GESTOR ELITE RJ</h2>
+    <p style="text-align:center; font-size:12px; color:#70757a; margin-bottom:25px;">Homologação Concluída | Persistência e Backup Ativos</p>
 
     <div class="main-grid">
         <div class="card">
             <label>📋 LISTA DE ATRASADOS</label>
-            <textarea id="lista" placeholder="Cole os grupos (ex: 01, 05, 10...)"></textarea>
+            <textarea id="lista" placeholder="Cole os grupos aqui..."></textarea>
         </div>
         <div class="card">
             <label>🕒 RESULTADO PARA ATUALIZAR</label>
@@ -67,15 +67,15 @@
         </div>
     </div>
 
-    <button class="btn btn-main" onclick="executar()">Atualizar Ciclo e Gerar Palpites</button>
+    <button class="btn btn-main" onclick="executar()">ATUALIZAR CICLO E GERAR 08 TERNOS</button>
 
     <div id="saida" class="result-area">
         <div class="status-chip">
-            <span id="info"></span>
-            <span id="data-hora"></span>
+            <span id="info">STATUS: PRONTO PARA TESTE</span>
+            <span id="hora-log">00:00:00</span>
         </div>
         <table>
-            <thead><tr><th>Grupo</th><th>Bicho</th><th>Milhar Sugerida</th><th>Base</th></tr></thead>
+            <thead><tr><th>GRUPO</th><th>BICHO</th><th>MILHAR SUGERIDA</th><th>BASE</th></tr></thead>
             <tbody id="corpoF"></tbody>
         </table>
         <div id="corpoT" class="ternos-container"></div>
@@ -94,145 +94,90 @@
     let cicloGlobal = [];
 
     function carregar() {
-        const salvo = localStorage.getItem('saba_v5_gold');
-        if(salvo) {
-            try {
-                cicloGlobal = JSON.parse(salvo);
-                if(cicloGlobal.length > 0) renderizarPalpites("CICLO RECUPERADO");
-            } catch(e) { console.error("Erro ao carregar dados locais."); }
-        }
+        const salvo = localStorage.getItem('saba_v67_final');
+        if(salvo) { cicloGlobal = JSON.parse(salvo); renderizarPalpites("CICLO RECUPERADO"); }
     }
 
-    function extrair(txt) {
-        if(!txt) return [];
-        // Filtra apenas números e garante que fiquem entre 1 e 25
-        return (txt.match(/\d+/g) || [])
-            .map(Number)
-            .filter(n => n >= 1 && n <= 25);
-    }
+    function extrair(txt) { return (txt.match(/\d+/g) || []).map(Number).filter(n => n >= 1 && n <= 25); }
 
     function executar() {
         const elLista = document.getElementById('lista');
         const ids = ['rCOR', 'rPPT', 'rPTM', 'rPT', 'rPTV', 'rPTN'];
-        
         let novaEntrada = [...new Set(extrair(elLista.value))];
         
-        // Se o usuário colou algo novo, substitui o ciclo. Senão, mantém o global.
-        if(novaEntrada.length > 0) {
-            cicloGlobal = novaEntrada;
-        }
+        if(novaEntrada.length > 0) cicloGlobal = novaEntrada;
+        if(cicloGlobal.length === 0) return alert("Erro: Cole a lista de atrasados primeiro!");
 
-        if(cicloGlobal.length === 0) {
-            alert("Erro: A lista de atrasados está vazia. Cole os grupos primeiro.");
-            return;
-        }
-
-        let sorteio = [], horarioNome = "";
+        let resSort = [], hLabel = "";
         for (let id of ids) {
             let n = extrair(document.getElementById(id).value);
-            if(n.length > 0) { 
-                sorteio = n; 
-                horarioNome = id.replace('r',''); 
-                break; 
-            }
+            if(n.length > 0) { resSort = n; hLabel = id.replace('r',''); break; }
         }
+        if(resSort.length === 0) return alert("Erro: Informe o resultado para atualizar o ciclo!");
 
-        if(sorteio.length === 0) {
-            alert("Atenção: Insira o resultado de pelo menos um horário.");
-            return;
-        }
-
-        // Lógica de Reordenação: Remove os que saíram e insere no fim
-        sorteio.forEach(num => {
-            cicloGlobal = cicloGlobal.filter(item => item !== num);
-            cicloGlobal.push(num);
+        resSort.forEach(n => {
+            cicloGlobal = cicloGlobal.filter(x => x !== n);
+            cicloGlobal.push(n);
         });
 
-        // Persistência
-        localStorage.setItem('saba_v5_gold', JSON.stringify(cicloGlobal));
-
-        // Limpeza de UI
+        localStorage.setItem('saba_v67_final', JSON.stringify(cicloGlobal));
         elLista.value = ""; 
         ids.forEach(id => document.getElementById(id).value = "");
-
-        renderizarPalpites(horarioNome);
+        renderizarPalpites(`ATUALIZADO VIA ${hLabel}`);
     }
 
-    function renderizarPalpites(tag) {
+    function renderizarPalpites(msg) {
         if(cicloGlobal.length === 0) return;
+        document.getElementById('saida').style.display = 'block';
+        document.getElementById('info').innerText = `STATUS: ${msg}`;
+        document.getElementById('hora-log').innerText = new Date().toLocaleTimeString('pt-BR');
 
-        const containerSaida = document.getElementById('saida');
-        const corpoF = document.getElementById('corpoF');
-        const corpoT = document.getElementById('corpoT');
+        // Identifica o líder de cada base para cercamento
+        const topA = cicloGlobal.find(n => db[n].b === 'A');
+        const topB = cicloGlobal.find(n => db[n].b === 'B');
+        const topC = cicloGlobal.find(n => db[n].b === 'C');
+        const elite = [topA, topB, topC].filter(Boolean);
 
-        containerSaida.style.display = 'block';
-        document.getElementById('info').innerText = `STATUS: ${tag}`;
-        document.getElementById('data-hora').innerText = new Date().toLocaleTimeString('pt-BR');
+        // Tabela Principal (Top 5 da Fila)
+        document.getElementById('corpoF').innerHTML = cicloGlobal.slice(0, 5).map((n, i) => `
+            <tr class="${elite.includes(n) ? 'row-prioridade' : ''}">
+                <td>${n.toString().padStart(2,'0')} ${elite.includes(n) ? '<span class="tag-alerta">ELITE</span>' : ''}</td>
+                <td>${db[n].n}</td>
+                <td style="color:var(--blue)">${db[n].m}</td>
+                <td><span class="badge ${db[n].b}">${db[n].b}</span></td>
+            </tr>
+        `).join('');
 
-        // Palpites Principais (Top 5 da fila)
-        const top5 = cicloGlobal.slice(0, 5);
-        corpoF.innerHTML = top5.map(n => {
-            const info = db[n] || {n:"?", b:"?", m:"?"};
-            return `<tr>
-                <td><strong style="font-size:18px;">${n.toString().padStart(2,'0')}</strong></td>
-                <td>${info.n}</td>
-                <td style="color:var(--blue); font-weight:bold; letter-spacing:1px;">${info.m}</td>
-                <td><span class="badge ${info.b}">${info.b}</span></td>
-            </tr>`;
-        }).join('');
-
-        // Geração de Ternos (Grupos de 3 em 3)
-        let copiaCiclo = [...cicloGlobal];
+        // Geração de 08 Ternos Combinados (Cercamento)
         let htmlTernos = "";
-        let contador = 1;
-
-        while(copiaCiclo.length >= 3) {
-            let terno = copiaCiclo.splice(0, 3);
+        for(let i=0; i<8; i++) {
+            let combo = cicloGlobal.slice(i, i+3);
+            if(combo.length < 3) combo = [...combo, ...cicloGlobal.slice(0, 3 - combo.length)];
+            
             htmlTernos += `
-                <div class="terno-card">
-                    <small>TERNO ${contador}</small>
-                    ${terno.map(n => n.toString().padStart(2,'0')).join(' - ')}
+                <div class="terno-card ${i === 0 ? 'terno-mestre' : ''}">
+                    <small>${i === 0 ? '🔥 Terno Principal' : 'Terno ' + (i+1)}</small>
+                    ${combo.map(n => n.toString().padStart(2,'0')).join(' - ')}
                 </div>`;
-            contador++;
-            if(contador > 8) break; // Limite de visualização
         }
-        corpoT.innerHTML = htmlTernos;
+        document.getElementById('corpoT').innerHTML = htmlTernos;
     }
 
     function exportarJSON() {
-        if(cicloGlobal.length === 0) return alert("Nada para salvar.");
-        const data = JSON.stringify({ ciclo: cicloGlobal, versao: "5.0", exportadoEm: new Date().toISOString() });
-        const blob = new Blob([data], {type: "application/json"});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `SABA_V5_BACKUP.json`;
-        a.click();
+        const b = new Blob([JSON.stringify(cicloGlobal)], {type: "application/json"});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = "saba_backup.json"; a.click();
     }
-
     function importarJSON(e) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const dados = JSON.parse(event.target.result);
-                if(dados.ciclo && Array.isArray(dados.ciclo)) {
-                    cicloGlobal = dados.ciclo;
-                    localStorage.setItem('saba_v5_gold', JSON.stringify(cicloGlobal));
-                    renderizarPalpites("BACKUP IMPORTADO");
-                    alert("Dados restaurados com sucesso!");
-                }
-            } catch(err) {
-                alert("Erro: O arquivo de backup está corrompido ou é inválido.");
-            }
+        const r = new FileReader();
+        r.onload = (ev) => {
+            cicloGlobal = JSON.parse(ev.target.result);
+            localStorage.setItem('saba_v67_final', JSON.stringify(cicloGlobal));
+            renderizarPalpites("BACKUP RECUPERADO");
+            alert("Backup restaurado!");
         };
-        reader.readAsText(e.target.files[0]);
+        r.readAsText(e.target.files[0]);
     }
-
-    function reset() {
-        if(confirm("ATENÇÃO: Isso apagará todo o seu ciclo atual. Confirmar?")) {
-            localStorage.removeItem('saba_v5_gold');
-            location.reload();
-        }
-    }
+    function reset() { if(confirm("Deseja resetar o ciclo?")) { localStorage.clear(); location.reload(); } }
 </script>
 </body>
 </html>
